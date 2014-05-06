@@ -1,0 +1,18 @@
+Sample Page 1
+--ENDTITLE--
+__NOTOC____NOEDITSECTION__
+This is the body of sample page one.
+This page was inserted by [http://jcutrer.com/ Mediawiki Bulk Page Creator].
+If you find this software useful please give me credit by providing a link to http://jcutrer.com
+[[Sample Page 2]]
+--ENDPAGE--
+Sample Page 2
+--ENDTITLE--
+This is sample page 2 with sections
+== Section 1 ==
+[[Sample Page 1]]
+== Section 2 ==
+This page was inserted by [http://jcutrer.com/ Mediawiki Bulk Page Creator].
+== Section 3 ==
+If you find this software useful please give me credit by providing a link to http://jcutrer.com
+--ENDPAGE--

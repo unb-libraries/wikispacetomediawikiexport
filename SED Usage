@@ -1,0 +1,58 @@
+SED Usage
+
+Image tags break with square brackets upon import
+
+Change right] to right|
+
+sed -i "" 's/\|right\]/\|right\|/g' File
+
+Change whatever is being described as Top to #top]Top in Mediawiki 
+
+sed "" 's/\[\[[^|]*|Top\]\]/[[#top|Top]]/g' File
+
+Change wikispace bold syntax to ''' in mediawiki bold
+
+sed "" 's/\*\*/\'\'\'/g' File
+
+If the image needs to retain its caption in Mediawiki it should have a thumb argument
+sed 's/\*.jpg\|/\*.jpg\|thumb\|/g' File
+sed "s/.jpg|/.jpg|thumb|/g" File
+
+and if there are a two thumbs replace with one:
+sed "s/.jpg|thumb|thumb|/.jpg|thumb|/g" File
+
+
+Remove link = @-----
+sed "s/link=@/link=/g" File
+
+Remove ] after left
+sed 's/\|left\]/\|left\|/g' File
+
+Wikispaces redirects i.e, [[@Head Hall]] redirects to Sir Edmund Head Hall
+#REDIRECT [[pagename]]
+
+Get rid of print page line
+[[{$server}/{$page|url}?f=print|Print this page]]
+
+sed '/{$server}/d' File
+
+Captions cannot contain special characters or they will not be imported properly:
+In our case captions had data like - [ca.1827] -> (ca.1827)
+
+for file in *; do perl -i -pe 's/\](?=[^\"]*"([^"]|"[^"]*")*$)/)/' "$file"; done
+for file in *; do perl -i -pe 's/\[(?=[^\"]*"([^"]|"[^"]*")*$)/(/' "$file"; done
+
+"]] -> ]]
+sed -i "" 's/\"\]\]/\]\]/g' File
+
+Remove @s in links
+'s/\[\[@/\[\[/g'
+
+Change whatever ending with top to #top|Top for Top to work in Mediawiki
+'s/\[\[[^|]*|Top\]\]/[[#top|Top]]/g'
+
+Convert wikispaces bold to mediawiki bold
+sed "s/\*\*/\'\'\'/g"
+
+Wherever you see the line server, get rid of it
+'/{$server}/d'
