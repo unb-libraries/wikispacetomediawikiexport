@@ -1,19 +1,20 @@
-SED Usage
+<-- SED Usage -->
 
 Image tags break with square brackets upon import
 
-Change right] to right|
+<-- Change right] to right| -->
 
 sed -i "" 's/\|right\]/\|right\|/g' File
 
-Change whatever is being described as Top to #top]Top in Mediawiki 
+<-- Change whatever is being described as Top to #top]Top in Mediawiki --> 
 
 sed "" 's/\[\[[^|]*|Top\]\]/[[#top|Top]]/g' File
 
-Change wikispace bold syntax to ''' in mediawiki bold
+<-- Change wikispace bold syntax to ''' in mediawiki bold -->
 
 sed "" 's/\*\*/\'\'\'/g' File
 
+<-- Image Captions -->
 If the image needs to retain its caption in Mediawiki it should have a thumb argument
 sed 's/\*.jpg\|/\*.jpg\|thumb\|/g' File
 sed "s/.jpg|/.jpg|thumb|/g" File
@@ -21,38 +22,57 @@ sed "s/.jpg|/.jpg|thumb|/g" File
 and if there are a two thumbs replace with one:
 sed "s/.jpg|thumb|thumb|/.jpg|thumb|/g" File
 
-
+<-- Remove @ from links -->
 Remove link = @-----
 sed "s/link=@/link=/g" File
 
-Remove ] after left
+<-- Remove ] after left -->
 sed 's/\|left\]/\|left\|/g' File
 
+<-- Redirects -->
 Wikispaces redirects i.e, [[@Head Hall]] redirects to Sir Edmund Head Hall
 #REDIRECT [[pagename]]
 
+<-- Get Rid of Server Line -->
 Get rid of print page line
 [[{$server}/{$page|url}?f=print|Print this page]]
-
 sed '/{$server}/d' File
 
+<-- Captions Special Characters -->
 Captions cannot contain special characters or they will not be imported properly:
 In our case captions had data like - [ca.1827] -> (ca.1827)
 
 for file in *; do perl -i -pe 's/\](?=[^\"]*"([^"]|"[^"]*")*$)/)/' "$file"; done
 for file in *; do perl -i -pe 's/\[(?=[^\"]*"([^"]|"[^"]*")*$)/(/' "$file"; done
 
+<-- Double Quotes in links -->
 "]] -> ]]
 sed -i "" 's/\"\]\]/\]\]/g' File
 
+<-- Removes @s -->
 Remove @s in links
 's/\[\[@/\[\[/g'
 
+<-- Top of the page -->
 Change whatever ending with top to #top|Top for Top to work in Mediawiki
 's/\[\[[^|]*|Top\]\]/[[#top|Top]]/g'
 
+<-- Wikispaces Bold to Mediawiki Bold -->
 Convert wikispaces bold to mediawiki bold
 sed "s/\*\*/\'\'\'/g"
 
+<-- Server line from Wikispaces -->
 Wherever you see the line server, get rid of it
 '/{$server}/d'
+
+<-- External Links -->
+Mediawiki External links have the following format
+[[URL Name]]
+However, the import from wikispaces brings them in the following format:
+[[URL|Name]]
+Mediawiki translates the pipe as %7C and the link becomes [[URL%7CName]] which breaks the link.
+To fix this, get rid of %7C
+[[http://www.lib.unb.ca/225/petition.html|William Paine]]
+[[http://www.lib.unb.ca/225/petition.html William Paine]]
+
+sed -E -i "" 's/\[\[http([^|]*)\|/[[http\1 /' FILE
