@@ -76,3 +76,6 @@ To fix this, get rid of %7C
 [[http://www.lib.unb.ca/225/petition.html William Paine]]
 
 sed -E -i "" 's/\[\[http([^|]*)\|/[[http\1 /' FILE
+
+<-- get rid of unbarchivespecialcollections in image links -->
+sed -i "" 's/File\:unbarchivesandspecialcollections\//File\:/g'
